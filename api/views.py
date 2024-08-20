@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from student.models import Student
 from teacher.models import Teacher
 from course.models import Course
@@ -66,7 +65,7 @@ class StudentDetailView(APIView):
         student.courses.remove(course)
 
     def add_to_class(self, student, class_id):
-        student_class = Student_Class.objects.get(id=class_id)
+        student_class = student_class.objects.get(id=class_id)
         student_class.students.add(student)    
 
     def post(self,request,id):
@@ -133,7 +132,7 @@ class TeacherDetailView(APIView):
         teacher.courses.add(course)
 
     def assign_class(self, teacher, class_id):
-        student_class = Student_Class.objects.get(id=class_id)
+        student_class = student_class.objects.get(id=class_id)
         student_class.teacher = teacher
         student_class.save()
 
@@ -273,6 +272,6 @@ class ClassPeriodDetailView(APIView):
     def create_class_period(self, teacher_id, course_id):
         teacher = Teacher.objects.get(id=teacher_id)
         course = Course.objects.get(id=course_id)
-        period = Class_Period(teacher=teacher, course=course)
+        period = ClassPeriod(teacher=teacher, course=course)
         period.save()
         return Response(status=status.HTTP_201_CREATED)
