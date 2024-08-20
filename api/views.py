@@ -72,17 +72,18 @@ class StudentDetailView(APIView):
     def post(self,request,id):
         student= Student.objects.get(id=id)
         action = request.data.get("action")
+        
         if action == "enroll":
             course_id= request.data.get("course_id")
             self.enroll(student, course_id)
         return Response(status=status.HTTP_201_CREATED)    
     
-        elif action == "unenroll":
+        if action == "unenroll":
             course_id = request.data.get("course_id")
             self.unenroll(student, course_id)
             return Response(status=status.HTTP_200_OK)
     
-        elif action == "add_to_class":
+        if action == "add_to_class":
             class_id = request.data.get("class_id")
             self.add_to_class(student, class_id)
             return Response(status=status.HTTP_201_CREATED)
